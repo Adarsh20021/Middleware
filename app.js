@@ -1,9 +1,16 @@
 const express = require("express");
 const app = express();
 
-app.use((req,res)=>{
-    console.log("Hi i am middleware");
-    res.send("middleware finished");
+app.use((req,res,next)=>{
+    console.log("Hi i am 1st middleware");
+    // res.send("Middleware finished.");
+    return next();
+    console.log("This wont execute,because of return."); //usually dont write anything after next().
+});
+
+app.use((req,res,next)=>{
+    console.log("Hi i am 2nd middleware");
+    next();
 });
 
 app.get("/",(req,res)=>{
