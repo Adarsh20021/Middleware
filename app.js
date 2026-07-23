@@ -14,15 +14,28 @@ const app = express();
 // });
 
 //Utility Middleware(Logger-morgan)
-app.use((req,res,next)=>{
-    req.time = new Date(Date.now()).toString();
-    console.log(req.method,req.hostname,req.path,req.time);      //write all middlewares in the starting of the page cauz after matched route respose will be sent and middleware wont run at all if written after the routes.
-    next();
-});
+// app.use((req,res,next)=>{
+//     req.time = new Date(Date.now()).toString();
+//     console.log(req.method,req.hostname,req.path,req.time);      //write all middlewares in the starting of the page cauz after matched route respose will be sent and middleware wont run at all if written after the routes.
+//     next();
+// });
 
 app.use("/random",(req,res,next)=>{                             //if path left empty, it means this middleware is for all routes.
     console.log("I am only for route random.");                 //this middleware is only for route random.
     next();
+});
+
+//kinda like authentication/protection layer
+app.use("/api",(req,res,next)=>{
+    let {token} = req.query;
+    if(token == "giveaccess"){                                  //if token passes in query is correct only then give access to data.
+        next();
+    }
+    res.send("Access Denied!");
+});
+
+app.get("/api",(req,res)=>{
+    res.send("Data shown");
 });
 
 app.get("/",(req,res)=>{
