@@ -39,7 +39,7 @@ const checkToken = (req,res,next)=>{
     if(token == "giveaccess"){                                  //if token passes in query is correct only then give access to data.
         next();
     }
-    res.send("Access Denied!");
+    throw new Error("Access Denied!");                          //custom error thrown.
 };
 
 app.get("/api",checkToken,(req,res)=>{                          //can call middleware function before sending response.
@@ -53,6 +53,10 @@ app.get("/",(req,res)=>{
 app.get("/random",(req,res)=>{
     res.send("This is a random page");
 });
+
+// app.get("/wrong",(req,res)=>{                                    //error statement.
+//     abcd=abcd;
+// });
 
 //404
 app.use((req,res)=>{
