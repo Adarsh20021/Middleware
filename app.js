@@ -20,12 +20,22 @@ app.use((req,res,next)=>{
     next();
 });
 
+app.use("/random",(req,res,next)=>{                             //if path left empty, it means this middleware is for all routes.
+    console.log("I am only for route random.");                 //this middleware is only for route random.
+    next();
+});
+
 app.get("/",(req,res)=>{
     res.send("Hi i am root");
 });
 
 app.get("/random",(req,res)=>{
     res.send("This is a random page");
+});
+
+//404
+app.use((req,res)=>{
+    res.status(404).send("Page not found!");                    //custom errors can be made using middlewares(error handling).
 });
 
 app.listen(8080,()=>{
