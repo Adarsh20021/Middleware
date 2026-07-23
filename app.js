@@ -26,15 +26,23 @@ app.use("/random",(req,res,next)=>{                             //if path left e
 });
 
 //kinda like authentication/protection layer
-app.use("/api",(req,res,next)=>{
+// app.use("/api",(req,res,next)=>{
+//     let {token} = req.query;
+//     if(token == "giveaccess"){                                  //if token passes in query is correct only then give access to data.
+//         next();
+//     }
+//     res.send("Access Denied!");
+// });
+
+const checkToken = (req,res,next)=>{
     let {token} = req.query;
     if(token == "giveaccess"){                                  //if token passes in query is correct only then give access to data.
         next();
     }
     res.send("Access Denied!");
-});
+};
 
-app.get("/api",(req,res)=>{
+app.get("/api",checkToken,(req,res)=>{                          //can call middleware function before sending response.
     res.send("Data shown");
 });
 
