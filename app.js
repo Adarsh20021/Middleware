@@ -1,15 +1,22 @@
 const express = require("express");
 const app = express();
 
-app.use((req,res,next)=>{
-    console.log("Hi i am 1st middleware");
-    // res.send("Middleware finished.");
-    return next();
-    console.log("This wont execute,because of return."); //usually dont write anything after next().
-});
+// app.use((req,res,next)=>{
+//     console.log("Hi i am 1st middleware");
+//     // res.send("Middleware finished.");
+//     return next();
+//     console.log("This wont execute,because of return."); //usually dont write anything after next().
+// });
 
+// app.use((req,res,next)=>{
+//     console.log("Hi i am 2nd middleware");
+//     next();
+// });
+
+//Utility Middleware(Logger-morgan)
 app.use((req,res,next)=>{
-    console.log("Hi i am 2nd middleware");
+    req.time = new Date(Date.now()).toString();
+    console.log(req.method,req.hostname,req.path,req.time);      //write all middlewares in the starting of the page cauz after matched route respose will be sent and middleware wont run at all if written after the routes.
     next();
 });
 
