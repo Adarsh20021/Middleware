@@ -54,14 +54,25 @@ app.get("/random",(req,res)=>{
     res.send("This is a random page");
 });
 
-// app.get("/wrong",(req,res)=>{                                    //error statement.
-//     abcd=abcd;
-// });
+app.get("/err",(req,res)=>{                                    //error statement.
+    abcd=abcd;
+});
+
+//error handling middleware
+app.use((err,req,res,next)=>{
+    console.log("-------ERROR--------");
+    next(err);                                              //default express error handler
+});
+
+app.use((err,req,res,next)=>{
+    console.log("-------ERROR_2 Middleware--------");
+    next(err);                                              
+});
 
 //404
-app.use((req,res)=>{
-    res.status(404).send("Page not found!");                    //custom errors can be made using middlewares(error handling).
-});
+// app.use((req,res)=>{
+//     res.status(404).send("Page not found!");                    //custom errors can be made using middlewares(error handling).
+// });
 
 app.listen(8080,()=>{
     console.log("server listening on port 8080.");
