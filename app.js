@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const ExpressError = require("./ExpressError");
 
 // app.use((req,res,next)=>{
 //     console.log("Hi i am 1st middleware");
@@ -39,7 +40,7 @@ const checkToken = (req,res,next)=>{
     if(token == "giveaccess"){                                  //if token passes in query is correct only then give access to data.
         next();
     }
-    throw new Error("Access Denied!");                          //custom error thrown.
+    throw new ExpressError(401,"Access Denied!");                          //custom error thrown.
 };
 
 app.get("/api",checkToken,(req,res)=>{                          //can call middleware function before sending response.
@@ -61,13 +62,14 @@ app.get("/err",(req,res)=>{                                    //error statement
 //error handling middleware
 app.use((err,req,res,next)=>{
     console.log("-------ERROR--------");
-    next(err);                                              //default express error handler
+    // next(err);                                              //default express error handler
+    res.send(err);
 });
 
-app.use((err,req,res,next)=>{
-    console.log("-------ERROR_2 Middleware--------");
-    next(err);                                              
-});
+// app.use((err,req,res,next)=>{
+//     console.log("-------ERROR_2 Middleware--------");
+//     next(err);                                              
+// });
 
 //404
 // app.use((req,res)=>{
