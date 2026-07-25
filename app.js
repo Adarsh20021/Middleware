@@ -61,9 +61,10 @@ app.get("/err",(req,res)=>{                                    //error statement
 
 //error handling middleware
 app.use((err,req,res,next)=>{
-    console.log("-------ERROR--------");
+    // console.log("-------ERROR--------");
     // next(err);                                              //default express error handler
-    res.send(err);
+    let {status=500,message="Some Error Occurred"} = err;
+    res.status(status).send(message);
 });
 
 // app.use((err,req,res,next)=>{
