@@ -59,6 +59,10 @@ app.get("/err",(req,res)=>{                                    //error statement
     abcd=abcd;
 });
 
+app.get("/admin",(req,res)=>{
+    throw new ExpressError(403,"Access to Admin is Forbidden");
+});
+
 //error handling middleware
 app.use((err,req,res,next)=>{
     // console.log("-------ERROR--------");
